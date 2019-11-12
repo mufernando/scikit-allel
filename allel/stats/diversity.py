@@ -3,6 +3,7 @@ import logging
 
 
 import numpy as np
+import warnings
 
 
 from allel.model.ndarray import SortedIndex, AlleleCountsArray
@@ -217,6 +218,7 @@ def sequence_diversity(pos, ac, start=None, stop=None,
         The position at which to start (1-based). Defaults to the first position.
     stop : int, optional
         The position at which to stop (1-based). Defaults to the last position.
+        If both stop and is_accessible are provided,
     is_accessible : array_like, bool, shape (len(contig),), optional
         Boolean array indicating accessibility status for all positions in the
         chromosome/contig.
@@ -224,7 +226,7 @@ def sequence_diversity(pos, ac, start=None, stop=None,
     Returns
     -------
 
-    pi : ndarray, float, shape (n_windows,)
+    pi : float
         Nucleotide diversity.
 
     Notes
@@ -258,6 +260,9 @@ def sequence_diversity(pos, ac, start=None, stop=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     ac = asarray_ndim(ac, 2)
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
@@ -320,7 +325,7 @@ def sequence_divergence(pos, ac1, ac2, an1=None, an2=None, start=None,
     Returns
     -------
 
-    Dxy : ndarray, float, shape (n_windows,)
+    Dxy : float
         Nucleotide divergence.
 
     Examples
@@ -350,6 +355,9 @@ def sequence_divergence(pos, ac1, ac2, an1=None, an2=None, start=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     ac1 = asarray_ndim(ac1, 2)
     ac2 = asarray_ndim(ac2, 2)
     if an1 is not None:
@@ -468,6 +476,9 @@ def windowed_diversity(pos, ac, size=None, start=None, stop=None, step=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # calculate mean pairwise difference
@@ -569,6 +580,9 @@ def windowed_divergence(pos, ac1, ac2, size=None, start=None, stop=None,
 
     # check inputs
     pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # calculate mean pairwise divergence
@@ -642,6 +656,9 @@ def windowed_df(pos, ac1, ac2, size=None, start=None, stop=None, step=None,
 
     # check inputs
     pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # locate fixed differences
@@ -709,8 +726,10 @@ def watterson_theta(pos, ac, start=None, stop=None,
 
     # check inputs
     if not isinstance(pos, SortedIndex):
-        pos = SortedIndex(pos, copy=False)
-    is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
+        pos = SortedIndex(pos, copy=False)    
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")    is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
     if not hasattr(ac, 'count_segregating'):
         ac = AlleleCountsArray(ac, copy=False)
 
@@ -826,6 +845,9 @@ def windowed_watterson_theta(pos, ac, size=None, start=None, stop=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
+    #check if any position is being masked
+    if np.any(np.invert(is_accessible[pos-1])):
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
     if not hasattr(ac, 'count_segregating'):
         ac = AlleleCountsArray(ac, copy=False)
