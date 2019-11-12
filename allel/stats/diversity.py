@@ -259,7 +259,7 @@ def sequence_diversity(pos, ac, start=None, stop=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     ac = asarray_ndim(ac, 2)
@@ -354,7 +354,7 @@ def sequence_divergence(pos, ac1, ac2, an1=None, an2=None, start=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     ac1 = asarray_ndim(ac1, 2)
@@ -475,7 +475,7 @@ def windowed_diversity(pos, ac, size=None, start=None, stop=None, step=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
@@ -579,7 +579,7 @@ def windowed_divergence(pos, ac1, ac2, size=None, start=None, stop=None,
 
     # check inputs
     pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
@@ -655,7 +655,7 @@ def windowed_df(pos, ac1, ac2, size=None, start=None, stop=None, step=None,
 
     # check inputs
     pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
@@ -725,10 +725,11 @@ def watterson_theta(pos, ac, start=None, stop=None,
 
     # check inputs
     if not isinstance(pos, SortedIndex):
-        pos = SortedIndex(pos, copy=False)    
-    #check if any position is being masked
+        pos = SortedIndex(pos, copy=False)
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")    is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
+        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
     if not hasattr(ac, 'count_segregating'):
         ac = AlleleCountsArray(ac, copy=False)
 
@@ -844,7 +845,7 @@ def windowed_watterson_theta(pos, ac, size=None, start=None, stop=None,
     # check inputs
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
-    #check if any position is being masked
+    # check if any position is being masked
     if np.any(np.invert(is_accessible[pos-1])):
         warnings.warn("At least one of the positions coincide with an inaccessible site.")
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
