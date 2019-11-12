@@ -218,7 +218,6 @@ def sequence_diversity(pos, ac, start=None, stop=None,
         The position at which to start (1-based). Defaults to the first position.
     stop : int, optional
         The position at which to stop (1-based). Defaults to the last position.
-        If both stop and is_accessible are provided,
     is_accessible : array_like, bool, shape (len(contig),), optional
         Boolean array indicating accessibility status for all positions in the
         chromosome/contig.
