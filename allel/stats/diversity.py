@@ -12,9 +12,9 @@ from allel.util import asarray_ndim, ignore_invalid, check_dim0_aligned, \
     ensure_dim1_aligned
 from allel.stats.window import windowed_statistic, per_base, moving_statistic
 
-
 logger = logging.getLogger(__name__)
 debug = logger.debug
+
 
 
 def mean_pairwise_difference(ac, an=None, fill=np.nan):
@@ -260,8 +260,11 @@ def sequence_diversity(pos, ac, start=None, stop=None,
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     ac = asarray_ndim(ac, 2)
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
@@ -355,8 +358,11 @@ def sequence_divergence(pos, ac1, ac2, an1=None, an2=None, start=None,
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     ac1 = asarray_ndim(ac1, 2)
     ac2 = asarray_ndim(ac2, 2)
     if an1 is not None:
@@ -476,8 +482,11 @@ def windowed_diversity(pos, ac, size=None, start=None, stop=None, step=None,
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # calculate mean pairwise difference
@@ -580,8 +589,11 @@ def windowed_divergence(pos, ac1, ac2, size=None, start=None, stop=None,
     # check inputs
     pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # calculate mean pairwise divergence
@@ -656,8 +668,11 @@ def windowed_df(pos, ac1, ac2, size=None, start=None, stop=None, step=None,
     # check inputs
     pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
 
     # locate fixed differences
@@ -727,8 +742,11 @@ def watterson_theta(pos, ac, start=None, stop=None,
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
     if not hasattr(ac, 'count_segregating'):
         ac = AlleleCountsArray(ac, copy=False)
@@ -846,8 +864,11 @@ def windowed_watterson_theta(pos, ac, size=None, start=None, stop=None,
     if not isinstance(pos, SortedIndex):
         pos = SortedIndex(pos, copy=False)
     # check if any position is being masked
-    if np.any(np.invert(is_accessible[pos-1])):
-        warnings.warn("At least one of the positions coincide with an inaccessible site.")
+    if np.any(np.logical_not(is_accessible[pos-1])):
+        warnings.warn("Any positions marked as inaccessible are being masked.")
+        ac = ac[is_accessible[pos-1]]
+        pos=pos[is_accessible[pos-1]]
+    #array dim checks
     is_accessible = asarray_ndim(is_accessible, 1, allow_none=True)
     if not hasattr(ac, 'count_segregating'):
         ac = AlleleCountsArray(ac, copy=False)
